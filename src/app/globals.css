@@ -13,10 +13,10 @@
   --color-muted: var(--muted);
   --color-rule: var(--rule);
   --font-display:
-    "Manrope", "Helvetica Neue", Arial, "Nimbus Sans L", sans-serif;
+    var(--font-manrope), "Helvetica Neue", Arial, "Nimbus Sans L", sans-serif;
   --font-serif:
-    "Newsreader", "Iowan Old Style", "Palatino Linotype", "Book Antiqua",
-    Georgia, serif;
+    var(--font-newsreader), "Iowan Old Style", "Palatino Linotype",
+    "Book Antiqua", Georgia, serif;
 }
 
 @layer base {
@@ -31,249 +31,145 @@
     font-kerning: normal;
     font-optical-sizing: auto;
   }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-display;
-  }
 }
 
 ::selection {
   background: color-mix(in srgb, var(--foreground) 14%, white);
 }
 
-.markdoc {
-  --flow-gap: 1.35rem;
-  --section-gap: 4.25rem;
-  --body-measure: 34rem;
-  --list-measure: 24rem;
+@utility reader-shell {
+  @apply mx-auto flex min-h-screen w-full max-w-3xl px-6 py-20 sm:px-8 sm:py-24;
 }
 
-@media (min-width: 48rem) {
-  .markdoc {
-    --flow-gap: 1.55rem;
-    --section-gap: 4.9rem;
-    --body-measure: 37rem;
-    --list-measure: 28rem;
+@utility reader-prose {
+  @apply w-full max-w-2xl font-serif text-lg leading-8 text-foreground md:text-xl md:leading-9;
+
+  &
+    :where(
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      ul,
+      ol,
+      blockquote,
+      figcaption,
+      hr,
+      pre,
+      table
+    ) {
+    @apply m-0;
   }
-}
 
-@media (min-width: 72rem) {
-  .markdoc {
-    --flow-gap: 1.65rem;
-    --section-gap: 5.5rem;
-    --body-measure: 39rem;
-    --list-measure: 30rem;
+  & p {
+    @apply text-pretty;
   }
-}
 
-.markdoc > * {
-  margin-top: 0;
-}
+  &
+    :where(p, ul, ol, blockquote, figcaption, hr, pre, table)
+    + :where(p, ul, ol, blockquote, figcaption, hr, pre, table) {
+    @apply mt-8 md:mt-10;
+  }
 
-.markdoc > * + * {
-  margin-top: var(--flow-gap);
-}
+  & :where(h1, h2, h3, h4, h5, h6) {
+    @apply font-display font-bold leading-tight tracking-tight text-balance;
+  }
 
-.markdoc > :where(h2, h3, h4, h5, h6) {
-  margin-top: var(--section-gap);
-}
+  & h1 {
+    @apply text-4xl leading-none md:text-5xl lg:text-5xl;
+  }
 
-.markdoc > :where(:first-child) {
-  margin-top: 0;
-}
+  & h2 {
+    @apply mt-20 text-5xl leading-none md:mt-24 md:text-4xl;
+  }
 
-.markdoc > :where(:last-child) {
-  margin-bottom: 0;
-}
+  & h3 {
+    @apply mt-14 text-3xl md:mt-16 md:text-4xl;
+  }
 
-.markdoc :where(h1) {
-  font-size: clamp(4.3rem, 11vw, 6.9rem);
-  font-weight: 780;
-  letter-spacing: clamp(-0.085em, -0.07em, -0.055em);
-  line-height: 0.84;
-  margin-top: 0;
-  max-width: 9ch;
-  text-wrap: balance;
-}
+  & :where(h4, h5, h6) {
+    @apply mt-10 text-2xl md:mt-12;
+  }
 
-.markdoc :where(h2) {
-  font-size: clamp(2.85rem, 6vw, 4.1rem);
-  font-weight: 760;
-  letter-spacing: -0.055em;
-  line-height: 0.9;
-  text-wrap: balance;
-}
+  & :where(h1, h2, h3, h4, h5, h6) + p {
+    @apply mt-4 md:mt-5;
+  }
 
-.markdoc :where(h3) {
-  font-size: clamp(1.55rem, 3vw, 2rem);
-  font-weight: 720;
-  letter-spacing: -0.04em;
-  line-height: 0.98;
-}
+  &
+    :where(h1, h2, h3, h4, h5, h6)
+    + :where(ul, ol, blockquote, hr, pre, table) {
+    @apply mt-6 md:mt-8;
+  }
 
-.markdoc :where(h4, h5, h6) {
-  font-size: clamp(1.15rem, 2vw, 1.35rem);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.05;
-}
+  & > h1 + p {
+    @apply max-w-xl text-xl leading-tight md:text-2xl;
+  }
 
-.markdoc :where(h1 + p) {
-  font-size: clamp(1.7rem, 3vw, 2.3rem);
-  line-height: 1.12;
-  letter-spacing: -0.022em;
-  margin-top: 0.5rem;
-  max-width: 24ch;
-  text-wrap: pretty;
-}
+  & a {
+    @apply text-foreground underline underline-offset-4;
+  }
 
-.markdoc :where(h1 + p + p) {
-  font-size: clamp(1.2rem, 1.65vw, 1.48rem);
-  line-height: 1.58;
-  letter-spacing: -0.012em;
-  margin-top: 1.4rem;
-  max-width: 37ch;
-}
+  & :where(ul, ol) {
+    @apply pl-5;
+  }
 
-.markdoc :where(h2 + p, h3 + p, h4 + p, h5 + p, h6 + p) {
-  margin-top: 0.55rem;
-}
+  & ul {
+    @apply list-disc;
+  }
 
-.markdoc :where(p, blockquote, figcaption) {
-  color: var(--foreground);
-  font-size: clamp(1.16rem, 1.3vw, 1.34rem);
-  letter-spacing: -0.012em;
-  line-height: 1.62;
-  max-width: var(--body-measure);
-  text-wrap: pretty;
-}
+  & ol {
+    @apply list-decimal;
+  }
 
-.markdoc :where(a) {
-  color: var(--foreground);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.18em;
-}
+  & li {
+    @apply pl-1;
+  }
 
-.markdoc :where(ul, ol) {
-  display: grid;
-  gap: 0.8rem;
-  max-width: var(--list-measure);
-  padding-left: 1.2rem;
-}
+  & li + li,
+  & li :where(ul, ol) {
+    @apply mt-4;
+  }
 
-.markdoc :where(ul) {
-  list-style: disc;
-}
+  & blockquote {
+    @apply border-l border-rule pl-5 text-muted;
+  }
 
-.markdoc :where(ol) {
-  list-style: decimal;
-}
+  & figcaption {
+    @apply text-sm leading-6 text-muted;
+  }
 
-.markdoc :where(li) {
-  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
-  letter-spacing: -0.02em;
-  line-height: 1.24;
-  padding-left: 0.15rem;
-}
+  & hr {
+    @apply border-0 border-t border-rule;
+  }
 
-.markdoc :where(li > p) {
-  font-size: inherit;
-  line-height: inherit;
-  letter-spacing: inherit;
-  margin: 0;
-  max-width: none;
-}
+  & pre {
+    @apply overflow-x-auto border border-rule px-5 py-4 text-base leading-7;
+  }
 
-.markdoc :where(li)::marker {
-  color: var(--foreground);
-  font-size: 0.72em;
-}
+  & code {
+    @apply font-mono;
+  }
 
-.markdoc :where(li > ul, li > ol) {
-  margin-top: 0.65rem;
-}
+  & table {
+    @apply w-full border-collapse;
+  }
 
-.markdoc :where(strong) {
-  font-weight: 600;
-}
+  & th {
+    @apply border-b border-rule pb-2 pr-4 text-left font-display text-base font-bold tracking-tight;
+  }
 
-.markdoc :where(em) {
-  font-style: italic;
-}
+  & td {
+    @apply border-b border-rule py-3 pr-4 align-top;
+  }
 
-.markdoc :where(blockquote) {
-  border-left: 1px solid var(--rule);
-  color: var(--muted);
-  margin-left: 0;
-  max-width: calc(var(--body-measure) - 1.5rem);
-  padding-left: 1rem;
-}
+  & :where(th, td):last-child {
+    @apply pr-0;
+  }
 
-.markdoc :where(hr) {
-  border: 0;
-  border-top: 1px solid var(--rule);
-  margin: 0.25rem 0 0.65rem;
-}
-
-.markdoc :where(pre) {
-  border: 1px solid var(--rule);
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    Liberation Mono,
-    Courier New,
-    monospace;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  max-width: min(100%, 44rem);
-  overflow-x: auto;
-  padding: 1rem;
-}
-
-.markdoc :where(code):not(pre code) {
-  font-family:
-    ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Monaco,
-    Consolas,
-    Liberation Mono,
-    Courier New,
-    monospace;
-  font-size: 0.95em;
-}
-
-.markdoc :where(img) {
-  height: auto;
-  max-width: 100%;
-  width: auto;
-}
-
-.markdoc :where(table) {
-  border-collapse: collapse;
-  max-width: min(100%, 44rem);
-  width: 100%;
-}
-
-.markdoc :where(th, td) {
-  border-bottom: 1px solid var(--rule);
-  font-size: 1rem;
-  line-height: 1.6;
-  padding: 0.75rem 0;
-  text-align: left;
-  vertical-align: top;
-}
-
-.markdoc :where(th) {
-  font-family: "Manrope", "Helvetica Neue", Arial, "Nimbus Sans L", sans-serif;
-  font-weight: 600;
+  & img {
+    @apply h-auto max-w-full;
+  }
 }

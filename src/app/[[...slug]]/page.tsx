@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ReaderArticle } from "@/components/reader/article";
 import { getMarkdocPage, getMarkdocPages } from "@/lib/markdoc";
 
 type RouteParams = {
@@ -58,9 +59,5 @@ export default async function MarkdocPage({ params }: MarkdocPageProps) {
     notFound();
   }
 
-  return (
-    <main className="mx-auto flex min-h-screen w-full max-w-3xl px-6 py-20 sm:px-8 sm:py-24">
-      <article className="markdoc w-full font-serif">{page.content}</article>
-    </main>
-  );
+  return <ReaderArticle>{page.content}</ReaderArticle>;
 }

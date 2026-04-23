@@ -1,16 +1,18 @@
 import type { Metadata } from "next";
-import { Manrope, Newsreader } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const manrope = Manrope({
+const manrope = localFont({
   display: "swap",
-  subsets: ["latin"],
+  src: "./fonts/Manrope-latin.woff2",
+  weight: "200 800",
   variable: "--font-manrope",
 });
 
-const newsreader = Newsreader({
+const newsreader = localFont({
   display: "swap",
-  subsets: ["latin"],
+  src: "./fonts/Newsreader-latin.woff2",
+  weight: "200 800",
   variable: "--font-newsreader",
 });
 
