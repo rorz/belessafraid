@@ -1,0 +1,78 @@
+---
+title: Kitchen Sink
+description: A plain Markdoc page that exercises the blog format.
+---
+
+# {% $markdoc.frontmatter.title %}
+
+Use this page as the pressure test for the blog.
+
+It should answer the boring questions early: what long-form copy feels like, how lists breathe, how quotes land, how code wraps, and how tables hold together.
+
+## Lead paragraph
+
+The right blog system should make writing feel ordinary and publishing feel inevitable. If a page can survive this document, it can survive an essay.
+
+## Subheadings
+
+### Short section
+
+This is a short section under a third-level heading.
+
+### Slightly longer section
+
+This paragraph exists to show a denser block of text under a smaller heading. It should still read cleanly, with enough line height to feel calm and enough contrast to feel sharp.
+
+## Lists
+
+- Ordered thought
+- Unordered note
+- Plain internal link to the [index](/)
+- Plain nested path to [Blankness](/essays/blankness)
+
+1. Open with a sentence that matters.
+2. Build structure that can be skimmed without collapsing.
+3. Keep the ornamental instincts under control.
+
+## Quote
+
+> Good blog design disappears into the reading experience. The sentence gets remembered, not the box it came in.
+
+## Code
+
+```tsx
+type Post = {
+  title: string;
+  slug: string;
+  publishedAt: string;
+};
+
+export function sortPosts(posts: Post[]) {
+  return [...posts].sort((left, right) =>
+    right.publishedAt.localeCompare(left.publishedAt)
+  );
+}
+```
+
+Inline code should also sit quietly inside a sentence, like `generateStaticParams`.
+
+## Rule
+
+---
+
+## Table
+
+| Element | Job | Constraint |
+| --- | --- | --- |
+| Title | Stop the eye | No ornamental nonsense |
+| Deck | Set context | Keep it lean |
+| Body | Carry the argument | Optimize for rereading |
+| Code | Explain mechanics | Never blow out the column |
+
+## Image
+
+![A plain graphic placeholder](/window.svg)
+
+## Closing
+
+If this page looks calm, legible, and durable, the system is probably ready.
