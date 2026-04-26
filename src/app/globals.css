@@ -1,17 +1,6 @@
 @import "tailwindcss";
 
-:root {
-  --background: #fffdfa;
-  --foreground: #1c1917;
-  --muted: #6b645d;
-  --rule: #d7d1c9;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-rule: var(--rule);
   --font-display:
     var(--font-manrope), "Helvetica Neue", Arial, "Nimbus Sans L", sans-serif;
   --font-serif:
@@ -22,19 +11,14 @@
 @layer base {
   html,
   body {
-    background: var(--background);
-    color: var(--foreground);
-  }
-
-  body {
-    @apply font-serif;
+    @apply bg-taupe-100 font-serif;
     font-kerning: normal;
     font-optical-sizing: auto;
   }
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--foreground) 14%, white);
+  @apply bg-taupe-600 text-white;
 }
 
 @utility reader-shell {
@@ -42,7 +26,7 @@
 }
 
 @utility reader-prose {
-  @apply w-full max-w-2xl font-serif text-lg leading-8 text-foreground md:text-xl md:leading-9;
+  @apply w-full max-w-2xl font-serif text-lg leading-8 text-black md:text-xl md:leading-9;
 
   &
     :where(
@@ -65,40 +49,56 @@
   }
 
   & p {
-    @apply text-pretty;
+    @apply text-pretty text-base text-black;
   }
 
-  &
+  & p + p {
+    @apply mt-3;
+  }
+
+  /* &
     :where(p, ul, ol, blockquote, figcaption, hr, pre, table)
     + :where(p, ul, ol, blockquote, figcaption, hr, pre, table) {
     @apply mt-8 md:mt-10;
-  }
+  } */
 
   & :where(h1, h2, h3, h4, h5, h6) {
-    @apply font-display font-bold leading-tight tracking-tight text-balance;
+    @apply font-display leading-tight tracking-tight text-balance text-taupe-800;
   }
 
   & h1 {
-    @apply text-4xl leading-none md:text-5xl lg:text-5xl;
+    @apply text-6xl leading-none font-semibold text-mist-500 mb-10;
   }
 
   & h2 {
-    @apply mt-20 text-5xl leading-none md:mt-24 md:text-4xl;
+    @apply text-3xl leading-none font-black text-mist-700 mb-4;
   }
 
   & h3 {
-    @apply mt-14 text-3xl md:mt-16 md:text-4xl;
+    @apply text-2xl font-bold text-mist-700 mb-3;
   }
 
-  & :where(h4, h5, h6) {
-    @apply mt-10 text-2xl md:mt-12;
+  & h4 {
+    @apply text-xl font-semibold text-mist-600 mb-2;
   }
 
-  & :where(h1, h2, h3, h4, h5, h6) + p {
+  & h5 {
+    @apply text-lg font-semibold text-mist-500 mb-1.5;
+  }
+
+  & h6 {
+    @apply text-base font-medium text-mist-500 mb-1;
+  }
+
+  & p + :where(h1, h2, h3, h4, h5, h6) {
+    @apply mt-10;
+  }
+
+  /* & :where(h1, h2, h3, h4, h5, h6) + p {
     @apply mt-4 md:mt-5;
-  }
+  } */
 
-  &
+  /* &
     :where(h1, h2, h3, h4, h5, h6)
     + :where(ul, ol, blockquote, hr, pre, table) {
     @apply mt-6 md:mt-8;
@@ -106,10 +106,10 @@
 
   & > h1 + p {
     @apply max-w-xl text-xl leading-tight md:text-2xl;
-  }
+  } */
 
   & a {
-    @apply text-foreground underline underline-offset-4;
+    @apply underline underline-offset-4;
   }
 
   & :where(ul, ol) {
@@ -134,19 +134,19 @@
   }
 
   & blockquote {
-    @apply border-l border-rule pl-5 text-muted;
+    @apply border-l pl-5;
   }
 
   & figcaption {
-    @apply text-sm leading-6 text-muted;
+    @apply text-sm leading-6;
   }
 
   & hr {
-    @apply border-0 border-t border-rule;
+    @apply border-0 border-t;
   }
 
   & pre {
-    @apply overflow-x-auto border border-rule px-5 py-4 text-base leading-7;
+    @apply overflow-x-auto border px-5 py-4 text-base leading-7;
   }
 
   & code {
@@ -158,11 +158,11 @@
   }
 
   & th {
-    @apply border-b border-rule pb-2 pr-4 text-left font-display text-base font-bold tracking-tight;
+    @apply border-b pb-2 pr-4 text-left font-display text-base font-bold tracking-tight;
   }
 
   & td {
-    @apply border-b border-rule py-3 pr-4 align-top;
+    @apply border-b py-3 pr-4 align-top;
   }
 
   & :where(th, td):last-child {
