@@ -32,11 +32,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${newsreader.variable} h-full bg-background text-foreground antialiased`}
+      className={`${manrope.variable} ${newsreader.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-background text-foreground font-serif">
-        {children}
-      </body>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

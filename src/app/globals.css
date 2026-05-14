@@ -6,14 +6,24 @@
   --font-serif:
     var(--font-newsreader), "Iowan Old Style", "Palatino Linotype",
     "Book Antiqua", Georgia, serif;
+
+  /* Two-palette system: warm (taupe) carries page and body, cool (mist) carries structure. */
+  --color-background: var(--color-taupe-100);
+  --color-foreground: var(--color-black);
+  --color-display: var(--color-mist-700);
+  --color-muted: var(--color-taupe-600);
+  --color-subtle: var(--color-mist-400);
+  --color-rule: var(--color-mist-300);
+  --color-surface: var(--color-taupe-50);
 }
 
 @layer base {
   html,
   body {
-    @apply bg-taupe-100 font-serif;
+    @apply bg-background text-foreground font-serif;
     font-kerning: normal;
     font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
   }
 }
 
@@ -22,12 +32,13 @@
 }
 
 @utility reader-shell {
-  @apply mx-auto flex min-h-screen w-full max-w-3xl px-6 py-20 sm:px-8 sm:py-24;
+  @apply mx-auto flex min-h-screen w-full max-w-3xl px-6 py-14 sm:px-8 md:py-24;
 }
 
 @utility reader-prose {
-  @apply w-full max-w-2xl font-serif text-lg leading-8 text-black md:text-xl md:leading-9;
+  @apply w-full max-w-2xl font-serif text-base leading-relaxed text-foreground md:text-xl;
 
+  /* Reset block margins so rhythm is set explicitly by the rules below. */
   &
     :where(
       h1,
@@ -40,6 +51,7 @@
       ul,
       ol,
       blockquote,
+      figure,
       figcaption,
       hr,
       pre,
@@ -49,120 +61,117 @@
   }
 
   & p {
-    @apply text-pretty text-base text-black;
+    @apply text-pretty;
   }
 
-  & p + p {
-    @apply mt-3;
+  & :where(p, ul, ol, blockquote, pre, table, figure)
+    + :where(p, ul, ol, blockquote, pre, table, figure) {
+    @apply mt-6;
   }
-
-  /* &
-    :where(p, ul, ol, blockquote, figcaption, hr, pre, table)
-    + :where(p, ul, ol, blockquote, figcaption, hr, pre, table) {
-    @apply mt-8 md:mt-10;
-  } */
 
   & :where(h1, h2, h3, h4, h5, h6) {
-    @apply font-display leading-tight tracking-tight text-balance text-taupe-800;
+    @apply font-display font-semibold leading-tight tracking-tight text-balance text-display;
   }
 
   & h1 {
-    @apply text-6xl leading-none font-semibold text-mist-500 mb-10;
+    @apply text-4xl tracking-tighter mb-6 md:text-6xl md:mb-8;
   }
 
   & h2 {
-    @apply text-3xl leading-none font-black text-mist-700 mb-4;
+    @apply text-2xl mb-3 md:text-4xl md:mb-4;
   }
 
   & h3 {
-    @apply text-2xl font-bold text-mist-700 mb-3;
+    @apply text-xl mb-2 md:text-3xl md:mb-3;
   }
 
   & h4 {
-    @apply text-xl font-semibold text-mist-600 mb-2;
+    @apply text-lg mb-2 md:text-2xl md:mb-3;
   }
 
   & h5 {
-    @apply text-lg font-semibold text-mist-500 mb-1.5;
+    @apply text-base mb-2 md:text-xl;
   }
 
   & h6 {
-    @apply text-base font-medium text-mist-500 mb-1;
+    @apply text-sm font-medium uppercase tracking-wide mb-2 md:text-base;
   }
 
-  & p + :where(h1, h2, h3, h4, h5, h6) {
-    @apply mt-10;
+  & :where(p, ul, ol, blockquote, pre, table, figure) + h1 {
+    @apply mt-12 md:mt-16;
   }
-
-  /* & :where(h1, h2, h3, h4, h5, h6) + p {
-    @apply mt-4 md:mt-5;
-  } */
-
-  /* &
-    :where(h1, h2, h3, h4, h5, h6)
-    + :where(ul, ol, blockquote, hr, pre, table) {
+  & :where(p, ul, ol, blockquote, pre, table, figure) + h2 {
+    @apply mt-10 md:mt-12;
+  }
+  & :where(p, ul, ol, blockquote, pre, table, figure) + h3 {
+    @apply mt-8 md:mt-10;
+  }
+  & :where(p, ul, ol, blockquote, pre, table, figure) + :where(h4, h5, h6) {
     @apply mt-6 md:mt-8;
   }
 
-  & > h1 + p {
-    @apply max-w-xl text-xl leading-tight md:text-2xl;
-  } */
-
   & a {
-    @apply underline underline-offset-4;
+    @apply underline underline-offset-4 decoration-from-font decoration-subtle transition-colors hover:decoration-foreground;
   }
 
   & :where(ul, ol) {
-    @apply pl-5;
+    @apply pl-6;
   }
 
   & ul {
-    @apply list-disc;
+    @apply list-disc marker:text-subtle;
   }
 
   & ol {
-    @apply list-decimal;
+    @apply list-decimal marker:text-subtle;
   }
 
   & li {
     @apply pl-1;
   }
 
-  & li + li,
+  & li + li {
+    @apply mt-2;
+  }
+
   & li :where(ul, ol) {
-    @apply mt-4;
+    @apply mt-2;
   }
 
   & blockquote {
-    @apply border-l pl-5;
+    @apply border-l-2 border-subtle pl-5 italic text-muted md:pl-6;
   }
 
   & figcaption {
-    @apply text-sm leading-6;
+    @apply mt-2 text-sm leading-6 text-muted;
   }
 
   & hr {
-    @apply border-0 border-t;
+    @apply my-10 border-0 border-t border-rule md:my-12;
   }
 
   & pre {
-    @apply overflow-x-auto border px-5 py-4 text-base leading-7;
+    @apply overflow-x-auto rounded-md border border-rule bg-surface px-4 py-3 text-sm leading-6 md:px-5 md:py-4 md:text-base md:leading-7;
   }
 
   & code {
-    @apply font-mono;
+    @apply font-mono text-[0.92em];
+  }
+
+  & :not(pre) > code {
+    @apply rounded-sm bg-surface px-1.5 py-0.5 text-foreground;
   }
 
   & table {
-    @apply w-full border-collapse;
+    @apply w-full border-collapse text-sm md:text-base;
   }
 
   & th {
-    @apply border-b pb-2 pr-4 text-left font-display text-base font-bold tracking-tight;
+    @apply border-b border-rule pb-2 pr-4 text-left font-display text-sm font-semibold tracking-tight text-display md:text-base;
   }
 
   & td {
-    @apply border-b py-3 pr-4 align-top;
+    @apply border-b border-rule py-3 pr-4 align-top;
   }
 
   & :where(th, td):last-child {
