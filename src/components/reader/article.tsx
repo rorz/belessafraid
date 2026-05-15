@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { HomeLink } from "../home-link";
 
 type ReaderArticleProps = {
   children: ReactNode;
@@ -7,6 +8,7 @@ type ReaderArticleProps = {
 export function ReaderArticle({ children }: ReaderArticleProps) {
   return (
     <main className="reader-shell">
+      <HomeLink />
       <article className="reader-prose">{children}</article>
     </main>
   );
