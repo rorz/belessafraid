@@ -5,7 +5,7 @@ export const Footer = () => {
 
   return (
     <footer className="mt-12 flex justify-between align-baseline text-mist-500">
-      <p>&copy; Rory McMeekin {year}</p>
+      <p className="text-sm">&copy; Rory McMeekin {year}</p>
       <div className="flex gap-2 text-sm">
         <Link target="_blank" href="https://github.com/rorz">
           GitHub
